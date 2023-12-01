@@ -1,0 +1,9 @@
+.navbar-body {
+  height: 10rem;
+  border-bottom: 1px black solid;
+  margin-bottom: 1rem;
+}
+
+.navbar-logo img {
+  width: 5rem;
+}
