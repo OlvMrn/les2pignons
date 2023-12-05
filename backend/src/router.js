@@ -10,10 +10,10 @@ const router = express.Router();
 const articleControllers = require("./controllers/articleControllers");
 
 // Route to get a list of items
-router.get("/articles", articleControllers.getArticles);
+router.get("/articles", articleControllers.browse);
 
 // Route to get a specific item by ID
-router.get("/articles/:id", articleControllers.getArticlesById);
+router.get("/articles/:id", articleControllers.read);
 
 // Route to add a new item
 /* router.post("/items", itemControllers.add); */

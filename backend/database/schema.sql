@@ -208,7 +208,7 @@ CREATE TABLE article (
  content TEXT NOT NULL,
  publish_date DATE NOT NULL,
  destination_id INT UNSIGNED NOT NULL,
- FOREIGN KEY (destination_id) REFERENCES destination(id)
+ FOREIGN KEY (destination_id) REFERENCES destination(id) ON DELETE CASCADE
 );
 
 INSERT INTO article (category, title, picture, content, publish_date, destination_id) VALUES
