@@ -1,11 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import axios from "axios";
+import connexion from "./services/connexion";
 
 import App from "./App";
 import AllArticles from "./pages/AllArticles";
 import ArticlePage from "./pages/ArticlePage";
+import AdminPage from "./pages/AdminPage";
+import PostArticle from "./pages/PostArticle";
+import ConnexionPage from "./pages/ConnexionPage";
 
 const router = createBrowserRouter([
   {
@@ -16,25 +19,38 @@ const router = createBrowserRouter([
         path: "articles",
         element: <AllArticles />,
         loader: () => {
-          return axios
-            .get(`${import.meta.env.VITE_BACKEND_URL}/api/articles`)
-            .then((response) => {
-              return response.data;
-            });
+          return connexion.get(`/articles`).then((response) => {
+            return response.data;
+          });
         },
       },
       {
         path: "articles/:id",
         element: <ArticlePage />,
         loader: ({ params }) => {
-          return axios
-            .get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/articles/${params.id}`
-            )
-            .then((response) => {
-              return response.data;
-            });
+          return connexion.get(`/articles/${params.id}`).then((response) => {
+            return response.data;
+          });
         },
+      },
+      {
+        path: "connexion",
+        element: <ConnexionPage />,
+      },
+      {
+        path: "admin",
+        element: <AdminPage />,
+        children: [
+          {
+            path: "post",
+            element: <PostArticle />,
+            loader: () => {
+              return connexion.get(`/countries`).then((response) => {
+                return response.data;
+              });
+            },
+          },
+        ],
       },
     ],
   },

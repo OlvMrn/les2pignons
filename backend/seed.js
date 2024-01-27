@@ -3,38 +3,61 @@
 // Load environment variables from .env file
 require("dotenv").config();
 
-// Import Faker library for generating fake data
-const { faker } = require("@faker-js/faker");
-
 // Import database client
 const database = require("./database/client");
+const user = require("./database/data/user.json");
+const role = require("./database/data/role.json");
+const country = require("./database/data/country.json");
+const article = require("./database/data/article.json");
 
 const seed = async () => {
   try {
-    // Declare an array to store the query promises
-    // See why here: https://eslint.org/docs/latest/rules/no-await-in-loop
-    const queries = [];
+    const roleQuery = [];
+    for (let i = 0; i < role.length; i += 1) {
+      roleQuery.push(
+        database.query("insert into role(label) values (?)", [role[i].label])
+      );
+    }
+    await Promise.all(roleQuery);
 
-    /* ************************************************************************* */
+    const userQuery = [];
+    for (let i = 0; i < user.length; i += 1) {
+      userQuery.push(
+        database.query(
+          "insert into user(email, password, role_id) values (?, ?, ?)",
+          [user[i].email, user[i].password, user[i].role_id]
+        )
+      );
+    }
+    await Promise.all(userQuery);
 
-    // Generating Seed Data
-
-    // Optional: Truncate tables (remove existing data)
-    await database.query("truncate item");
-
-    // Insert fake data into the 'item' table
-    for (let i = 0; i < 10; i += 1) {
-      queries.push(
-        database.query("insert into item(title) values (?)", [
-          faker.lorem.word(),
+    const countryQuery = [];
+    for (let i = 0; i < country.length; i += 1) {
+      countryQuery.push(
+        database.query("insert into country(name) values (?)", [
+          country[i].name,
         ])
       );
     }
+    await Promise.all(countryQuery);
 
-    /* ************************************************************************* */
-
-    // Wait for all the insertion queries to complete
-    await Promise.all(queries);
+    const articleQuery = [];
+    for (let i = 0; i < article.length; i += 1) {
+      articleQuery.push(
+        database.query(
+          "insert into article(category, title, picture, content, publish_date, country_id) values (?, ?, ?, ?, ?, ?)",
+          [
+            article[i].category,
+            article[i].title,
+            article[i].picture,
+            article[i].content,
+            article[i].publish_date,
+            article[i].country_id,
+          ]
+        )
+      );
+    }
+    await Promise.all(articleQuery);
 
     // Close the database connection
     database.end();

@@ -13,6 +13,12 @@ function Navbar() {
       <Link className="navbar-link" to="/articles">
         <h2>Articles</h2>
       </Link>
+      <Link className="navbar-link" to="/admin">
+        <h2>Page d'administration</h2>
+      </Link>
+      <Link className="navbar-link" to="/connexion">
+        <h2>Formulaire de connexion</h2>
+      </Link>
     </div>
   );
 }
