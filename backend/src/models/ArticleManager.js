@@ -9,23 +9,30 @@ class ArticleManager extends AbstractManager {
 
   // The C of CRUD - Create operation
 
-  /* async create(article) {
+  async create(article) {
     // Execute the SQL INSERT query to add a new article to the "article" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (title) values (?)`,
-      [article.title]
+      `insert into ${this.table} (category, title, picture, content, publish_date, country_id) values (?, ?, ?, ?, ?, ?)`,
+      [
+        article.category,
+        article.title,
+        article.picture,
+        article.content,
+        article.publish_date,
+        article.country_id,
+      ]
     );
 
     // Return the ID of the newly inserted article
     return result.insertId;
-  } */
+  }
 
   // The Rs of CRUD - Read operations
 
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific item by its ID
     const [rows] = await this.database.query(
-      `select * from ${this.table} inner join destination on destination.id = ${this.table}.destination_id where ${this.table}.id = ?`,
+      `select article.title, article.category, article.picture, article.publish_date, article.id, article.content, country.name from ${this.table} inner join country on country.id = ${this.table}.country_id where ${this.table}.id = ?`,
       [id]
     );
 
@@ -36,7 +43,7 @@ class ArticleManager extends AbstractManager {
   async readAll() {
     // Execute the SQL SELECT query to retrieve all items from the "item" table
     const [rows] = await this.database.query(
-      `select article.title, article.category, article.picture, article.publish_date, article.id, destination.country from ${this.table} inner join destination on destination.id = ${this.table}.destination_id`
+      `select article.title, article.category, article.picture, article.publish_date, article.id, country.name from ${this.table} inner join country on country.id = ${this.table}.country_id`
     );
 
     // Return the array of items

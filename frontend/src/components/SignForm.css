@@ -1,0 +1,22 @@
+.signform {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  margin-left: 20rem;
+}
+
+.signup {
+  background-color: aquamarine;
+}
+
+.signin {
+  background-color: darkgoldenrod;
+}
+
+button {
+  width: 20rem;
+}

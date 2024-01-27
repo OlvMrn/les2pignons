@@ -1,0 +1,24 @@
+.input-form-body {
+  display: flex;
+  flex-direction: column;
+  margin-left: 2rem;
+}
+
+.form-element {
+  margin-top: 1rem;
+}
+
+.input-title {
+  height: 2rem;
+  width: 25rem;
+}
+
+.input-content {
+  height: 10rem;
+  width: 25rem;
+}
+
+.input-picture {
+  height: 2rem;
+  width: 25rem;
+}
