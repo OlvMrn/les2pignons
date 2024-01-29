@@ -23,6 +23,12 @@ router.get("/articles/:id", articleControllers.read);
 router.post("/articles", articleControllers.add);
 router.post("/users", userControllers.add);
 
+// Route to edit an new item
+router.put("/articles/:id", articleControllers.edit);
+
+// Route to remove an item
+router.delete("/articles/:id", articleControllers.destroy);
+
 /* ************************************************************************* */
 
 module.exports = router;

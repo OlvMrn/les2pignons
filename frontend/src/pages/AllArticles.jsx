@@ -9,10 +9,12 @@ function AllArticles() {
 
   return (
     <div className="all-articles-body">
-      <h2>ARTICLES</h2>
-      {allArticles.map((article) => (
-        <ArticleCard key={article.id} article={article} />
-      ))}
+      <h2 className="all-articles-title">ARTICLES</h2>
+      <div className="all-articles-cards-container">
+        {allArticles.map((article) => (
+          <ArticleCard key={article.id} article={article} />
+        ))}
+      </div>
     </div>
   );
 }

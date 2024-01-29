@@ -32,10 +32,9 @@ class ArticleManager extends AbstractManager {
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific item by its ID
     const [rows] = await this.database.query(
-      `select article.title, article.category, article.picture, article.publish_date, article.id, article.content, country.name from ${this.table} inner join country on country.id = ${this.table}.country_id where ${this.table}.id = ?`,
+      `select article.title, article.category, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, article.country_id, country.name as country_name from ${this.table} inner join country on country.id = ${this.table}.country_id where ${this.table}.id = ?`,
       [id]
     );
-
     // Return the first row of the result, which represents the item
     return rows[0];
   }
@@ -43,7 +42,7 @@ class ArticleManager extends AbstractManager {
   async readAll() {
     // Execute the SQL SELECT query to retrieve all items from the "item" table
     const [rows] = await this.database.query(
-      `select article.title, article.category, article.picture, article.publish_date, article.id, country.name from ${this.table} inner join country on country.id = ${this.table}.country_id`
+      `select article.title, article.category, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, country.name from ${this.table} inner join country on country.id = ${this.table}.country_id`
     );
 
     // Return the array of items
@@ -51,14 +50,27 @@ class ArticleManager extends AbstractManager {
   }
 
   // The U of CRUD - Update operation
-  // TODO: Implement the update operation to modify an existing item
+  async update(id, article) {
+    // Execute the SQL SELECT query to retrieve a specific article by its ID
+    const [result] = await this.database.query(
+      `UPDATE ${this.table} set ? WHERE id = ?`,
+      [article, id]
+    );
 
-  // async update(item) {
-  //   ...
-  // }
+    // Return the first row of the result, which represents the item
+    return result;
+  }
 
   // The D of CRUD - Delete operation
-  // TODO: Implement the delete operation to remove an item by its ID
+  async delete(id) {
+    const result = await this.database.query(
+      `DELETE FROM ${this.table} WHERE id = ?`,
+      [id]
+    );
+
+    // Return the first row of the result, which represents the user
+    return result;
+  }
 
   // async delete(id) {
   //   ...

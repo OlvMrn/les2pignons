@@ -1,10 +1,11 @@
-import React, { useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 import connexion from "../services/connexion";
 
-import "./PostArticle.css";
+import "./ManageArticle.css";
 
-const articleType = {
+const articleTemplate = {
   category: "",
   title: "",
   picture: "",
@@ -13,10 +14,37 @@ const articleType = {
   country_id: "",
 };
 
-function PostArticle() {
-  const [article, setArticle] = useState(articleType);
-  const countriesData = useLoaderData();
+function ManageArticle() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [article, setArticle] = useState(articleTemplate);
+  const [countriesData, setCountriesData] = useState([]);
   const categories = ["Travel"];
+
+  const getCountries = async () => {
+    try {
+      const response = await connexion.get(`/countries`);
+      setCountriesData(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getArticleData = async () => {
+    try {
+      const response = await connexion.get(`/articles/${id}`);
+      setArticle(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getCountries();
+    if (id !== "new") {
+      getArticleData();
+    }
+  }, [id]);
 
   const handleArticle = (event) => {
     setArticle((previousState) => ({
@@ -29,6 +57,17 @@ function PostArticle() {
     event.preventDefault();
     try {
       await connexion.post("/articles", article);
+      navigate("/admin/articles");
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const putArticle = async (event) => {
+    event.preventDefault();
+    try {
+      await connexion.put(`/articles/${id}`, article);
+      navigate("/admin/articles");
     } catch (err) {
       console.error(err);
     }
@@ -36,10 +75,17 @@ function PostArticle() {
 
   return (
     <div>
-      <form className="input-form-body" onSubmit={postArticle}>
+      <form
+        className="input-form-body"
+        onSubmit={id !== "new" ? putArticle : postArticle}
+      >
         <label className="form-element">
           <select name="category" onChange={handleArticle}>
-            <option value="">--Select a category--</option>
+            {id === "new" ? (
+              <option value="">--Select a category--</option>
+            ) : (
+              <option value={article.category}>{article.category}</option>
+            )}
             {categories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -49,7 +95,11 @@ function PostArticle() {
         </label>
         <label className="form-element">
           <select name="country_id" onChange={handleArticle}>
-            <option value="">--Select a country--</option>
+            {id === "new" ? (
+              <option value="">--Select a country--</option>
+            ) : (
+              <option value={article.country_id}>{article.country_name}</option>
+            )}
             {countriesData.map((country) => (
               <option key={country.id} value={country.id}>
                 {country.name}
@@ -101,4 +151,4 @@ function PostArticle() {
   );
 }
 
-export default PostArticle;
+export default ManageArticle;
