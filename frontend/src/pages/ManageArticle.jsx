@@ -9,7 +9,6 @@ const articleTemplate = {
   title: "",
   picture: "",
   content: "",
-  publish_date: "",
   category_id: "",
   country_id: "",
 };
@@ -69,7 +68,7 @@ function ManageArticle() {
       setArticle((previousState) => ({
         ...previousState,
         country_name: null,
-        label: null,
+        country_id: null,
       }));
     }
     try {
@@ -86,7 +85,7 @@ function ManageArticle() {
       setArticle((previousState) => ({
         ...previousState,
         country_name: null,
-        label: null,
+        country_id: null,
       }));
     }
     try {
@@ -183,17 +182,6 @@ function ManageArticle() {
           value={article.content}
           onChange={handleArticle}
         />
-        <label className="form-element">
-          <h4>Date de publication</h4>
-          <input
-            type="date"
-            name="publish_date"
-            className="form-element input-date"
-            required
-            value={article.publish_date}
-            onChange={handleArticle}
-          />
-        </label>
         <input
           type="URL"
           name="picture"
