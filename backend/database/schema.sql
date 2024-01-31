@@ -13,7 +13,7 @@ CREATE TABLE article (
  title VARCHAR(255) NOT NULL,
  picture VARCHAR(255) NOT NULL,
  content TEXT NOT NULL,
- publish_date DATE NOT NULL,
+ publish_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
  category_id INT UNSIGNED NOT NULL,
  country_id INT UNSIGNED,
  FOREIGN KEY (country_id) REFERENCES country(id) ON DELETE CASCADE,

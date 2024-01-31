@@ -65,6 +65,13 @@ function ManageArticle() {
 
   const postArticle = async (event) => {
     event.preventDefault();
+    if (article.category_label !== "Voyage") {
+      setArticle((previousState) => ({
+        ...previousState,
+        country_name: null,
+        label: null,
+      }));
+    }
     try {
       await connexion.post("/articles", article);
       navigate("/admin/articles");
@@ -75,6 +82,13 @@ function ManageArticle() {
 
   const putArticle = async (event) => {
     event.preventDefault();
+    if (article.category_label !== "Voyage") {
+      setArticle((previousState) => ({
+        ...previousState,
+        country_name: null,
+        label: null,
+      }));
+    }
     try {
       await connexion.put(`/articles/${id}`, article);
       navigate("/admin/articles");
@@ -90,36 +104,64 @@ function ManageArticle() {
         onSubmit={id !== "new" ? putArticle : postArticle}
       >
         <label className="form-element">
-          <select name="category_id" onChange={handleArticle}>
+          <select
+            name="category_id"
+            onChange={handleArticle}
+            value={article.category_id}
+          >
             {id === "new" ? (
-              <option value="">--Select a category--</option>
+              <option value="">--Selectionner une catégorie--</option>
             ) : (
-              <option value={article.category_id}>
-                {article.category_label}
+              <option
+                value={
+                  categoriesData.find(
+                    (cat) => cat.label === article.category_label
+                  )?.id || ""
+                }
+              >
+                {categoriesData.find(
+                  (cat) => cat.label === article.category_label
+                )?.label || ""}
               </option>
             )}
-            {categoriesData.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        {article.category_id === "1" && (
-          <label className="form-element">
-            <select name="country_id" onChange={handleArticle}>
-              {id === "new" ? (
-                <option value="">--Select a country--</option>
-              ) : (
-                <option value={article.country_id}>
-                  {article.country_name}
-                </option>
-              )}
-              {countriesData.map((country) => (
-                <option key={country.id} value={country.id}>
-                  {country.name}
+            {categoriesData
+              .filter((cat) => cat.label !== article.category_label)
+              .map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.label}
                 </option>
               ))}
+          </select>
+        </label>
+        {parseInt(article.category_id, 10) === 1 && (
+          <label className="form-element">
+            <select
+              name="country_id"
+              onChange={handleArticle}
+              value={article.country_id}
+            >
+              {id === "new" ? (
+                <option value="">--Selectionner un pays--</option>
+              ) : (
+                <option
+                  value={
+                    countriesData.find(
+                      (country) => country.name === article.country_name
+                    )?.id || ""
+                  }
+                >
+                  {countriesData.find(
+                    (country) => country.name === article.country_name
+                  )?.name || ""}
+                </option>
+              )}
+              {countriesData
+                .filter((country) => country.name !== article.country_name)
+                .map((country) => (
+                  <option key={country.id} value={country.id}>
+                    {country.name}
+                  </option>
+                ))}
             </select>
           </label>
         )}
