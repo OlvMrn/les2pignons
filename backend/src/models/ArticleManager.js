@@ -12,13 +12,13 @@ class ArticleManager extends AbstractManager {
   async create(article) {
     // Execute the SQL INSERT query to add a new article to the "article" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (category, title, picture, content, publish_date, country_id) values (?, ?, ?, ?, ?, ?)`,
+      `insert into ${this.table} (title, picture, content, publish_date, category_id, country_id) values (?, ?, ?, ?, ?, ?)`,
       [
-        article.category,
         article.title,
         article.picture,
         article.content,
         article.publish_date,
+        article.category_id,
         article.country_id,
       ]
     );
@@ -32,13 +32,31 @@ class ArticleManager extends AbstractManager {
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific item by its ID
     const [rows] = await this.database.query(
-      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, country.name as country_name, category.label as category_label FROM ${this.table} 
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, category_id, country.name as country_name, category.label as category_label FROM ${this.table} 
       LEFT JOIN country ON country.id = ${this.table}.country_id
       INNER JOIN category ON category.id = ${this.table}.category_id 
       WHERE ${this.table}.id = ?`,
       [id]
     );
     // Return the first row of the result, which represents the item
+    return rows[0];
+  }
+
+  async readLatest(category) {
+    const [rows] = await this.database.query(
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, category_id, country.name as country_name, category.label as category_label 
+       FROM ${this.table}
+       LEFT JOIN country ON country.id = ${this.table}.country_id
+       INNER JOIN category ON category.id = ${this.table}.category_id 
+       WHERE category.label = ? AND article.publish_date = (
+         SELECT MAX(article.publish_date) 
+         FROM ${this.table} 
+         INNER JOIN category ON category.id = ${this.table}.category_id 
+         WHERE category.label = ?
+       )`,
+      [category, category]
+    );
+
     return rows[0];
   }
 

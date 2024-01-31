@@ -20,6 +20,7 @@ router.get("/categories", categoryControllers.browse);
 
 // Route to get a specific item by ID
 router.get("/articles/:id", articleControllers.read);
+router.get("/articles/latest/:category", articleControllers.readLatest);
 
 // Route to add a new item
 router.post("/articles", articleControllers.add);

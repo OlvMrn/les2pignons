@@ -34,11 +34,27 @@ const read = async (req, res, next) => {
   }
 };
 
+const readLatest = async (req, res, next) => {
+  try {
+    const article = await tables.article.readLatest(
+      req.params.category.toLowerCase()
+    );
+    if (article == null) {
+      res.sendStatus(404);
+    } else {
+      res.json(article);
+    }
+  } catch (err) {
+    next(err);
+  }
+};
+
 // The E of BREAD - Edit (Update) operation
 const edit = async (req, res, next) => {
   // Extract the article data from the request body
   const article = req.body;
   delete article.country_name;
+  delete article.category_label;
   try {
     // Fetch a specific article from the database based on the provided ID
     const result = await tables.article.update(req.params.id, article);
@@ -85,6 +101,7 @@ const destroy = async (req, res, next) => {
 module.exports = {
   browse,
   read,
+  readLatest,
   edit,
   add,
   destroy,

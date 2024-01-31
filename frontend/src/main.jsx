@@ -9,12 +9,17 @@ import AdminHomePage from "./pages/AdminHomePage";
 import ManageArticle from "./pages/ManageArticle";
 import ConnexionPage from "./pages/ConnexionPage";
 import AdminPage from "./pages/AdminPage";
+import HomePage from "./pages/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
       {
         path: "articles",
         element: <AllArticles />,
