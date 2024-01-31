@@ -10,11 +10,13 @@ const router = express.Router();
 const articleControllers = require("./controllers/articleControllers");
 const countryControllers = require("./controllers/countryControllers");
 const userControllers = require("./controllers/userControllers");
+const categoryControllers = require("./controllers/categoryControllers");
 
 // Route to get a list of items
 router.get("/articles", articleControllers.browse);
 router.get("/countries", countryControllers.browse);
 router.get("/users", userControllers.browse);
+router.get("/categories", categoryControllers.browse);
 
 // Route to get a specific item by ID
 router.get("/articles/:id", articleControllers.read);

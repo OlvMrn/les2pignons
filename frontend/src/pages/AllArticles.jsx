@@ -1,11 +1,26 @@
-import { useLoaderData } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+
+import connexion from "../services/connexion";
 
 import "./AllArticles.css";
 
 import ArticleCard from "../components/ArticleCard";
 
 function AllArticles() {
-  const allArticles = useLoaderData();
+  const [allArticles, setAllArticles] = useState([]);
+
+  const getArticles = async () => {
+    try {
+      const response = await connexion.get(`/articles`);
+      setAllArticles(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    getArticles();
+  }, []);
 
   return (
     <div className="all-articles-body">

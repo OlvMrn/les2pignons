@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import connexion from "./services/connexion";
 
 import App from "./App";
 import AllArticles from "./pages/AllArticles";
@@ -19,20 +18,10 @@ const router = createBrowserRouter([
       {
         path: "articles",
         element: <AllArticles />,
-        loader: () => {
-          return connexion.get(`/articles`).then((response) => {
-            return response.data;
-          });
-        },
       },
       {
         path: "articles/:id",
         element: <ArticlePage />,
-        loader: ({ params }) => {
-          return connexion.get(`/articles/${params.id}`).then((response) => {
-            return response.data;
-          });
-        },
       },
       {
         path: "connexion",

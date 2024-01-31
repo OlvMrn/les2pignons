@@ -6,11 +6,11 @@ import connexion from "../services/connexion";
 import "./ManageArticle.css";
 
 const articleTemplate = {
-  category: "",
   title: "",
   picture: "",
   content: "",
   publish_date: "",
+  category_id: "",
   country_id: "",
 };
 
@@ -19,12 +19,21 @@ function ManageArticle() {
   const { id } = useParams();
   const [article, setArticle] = useState(articleTemplate);
   const [countriesData, setCountriesData] = useState([]);
-  const categories = ["Travel"];
+  const [categoriesData, setCategoriesData] = useState([]);
 
   const getCountries = async () => {
     try {
       const response = await connexion.get(`/countries`);
       setCountriesData(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getCategories = async () => {
+    try {
+      const response = await connexion.get(`/categories`);
+      setCategoriesData(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -41,6 +50,7 @@ function ManageArticle() {
 
   useEffect(() => {
     getCountries();
+    getCategories();
     if (id !== "new") {
       getArticleData();
     }
@@ -80,33 +90,39 @@ function ManageArticle() {
         onSubmit={id !== "new" ? putArticle : postArticle}
       >
         <label className="form-element">
-          <select name="category" onChange={handleArticle}>
+          <select name="category_id" onChange={handleArticle}>
             {id === "new" ? (
               <option value="">--Select a category--</option>
             ) : (
-              <option value={article.category}>{article.category}</option>
+              <option value={article.category_id}>
+                {article.category_label}
+              </option>
             )}
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
+            {categoriesData.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.label}
               </option>
             ))}
           </select>
         </label>
-        <label className="form-element">
-          <select name="country_id" onChange={handleArticle}>
-            {id === "new" ? (
-              <option value="">--Select a country--</option>
-            ) : (
-              <option value={article.country_id}>{article.country_name}</option>
-            )}
-            {countriesData.map((country) => (
-              <option key={country.id} value={country.id}>
-                {country.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        {article.category_id === "1" && (
+          <label className="form-element">
+            <select name="country_id" onChange={handleArticle}>
+              {id === "new" ? (
+                <option value="">--Select a country--</option>
+              ) : (
+                <option value={article.country_id}>
+                  {article.country_name}
+                </option>
+              )}
+              {countriesData.map((country) => (
+                <option key={country.id} value={country.id}>
+                  {country.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
         <input
           type="text"
           name="title"

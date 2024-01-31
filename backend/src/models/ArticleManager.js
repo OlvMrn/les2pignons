@@ -32,7 +32,10 @@ class ArticleManager extends AbstractManager {
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific item by its ID
     const [rows] = await this.database.query(
-      `select article.title, article.category, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, article.country_id, country.name as country_name from ${this.table} inner join country on country.id = ${this.table}.country_id where ${this.table}.id = ?`,
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, country.name as country_name, category.label as category_label FROM ${this.table} 
+      LEFT JOIN country ON country.id = ${this.table}.country_id
+      INNER JOIN category ON category.id = ${this.table}.category_id 
+      WHERE ${this.table}.id = ?`,
       [id]
     );
     // Return the first row of the result, which represents the item
@@ -42,7 +45,9 @@ class ArticleManager extends AbstractManager {
   async readAll() {
     // Execute the SQL SELECT query to retrieve all items from the "item" table
     const [rows] = await this.database.query(
-      `select article.title, article.category, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, country.name from ${this.table} inner join country on country.id = ${this.table}.country_id`
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, country.name as country_name, category.label as category_label FROM ${this.table} 
+      LEFT JOIN country ON country.id = ${this.table}.country_id
+      INNER JOIN category ON category.id = ${this.table}.category_id`
     );
 
     // Return the array of items
