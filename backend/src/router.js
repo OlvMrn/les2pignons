@@ -12,6 +12,8 @@ const countryControllers = require("./controllers/countryControllers");
 const userControllers = require("./controllers/userControllers");
 const categoryControllers = require("./controllers/categoryControllers");
 
+const validateArticle = require("./validators/validateArticle");
+
 // Route to get a list of items
 router.get("/articles", articleControllers.browse);
 router.get("/countries", countryControllers.browse);
@@ -23,11 +25,11 @@ router.get("/articles/:id", articleControllers.read);
 router.get("/articles/latest/:category", articleControllers.readLatest);
 
 // Route to add a new item
-router.post("/articles", articleControllers.add);
+router.post("/articles", validateArticle, articleControllers.add);
 router.post("/users", userControllers.add);
 
 // Route to edit an new item
-router.put("/articles/:id", articleControllers.edit);
+router.put("/articles/:id", validateArticle, articleControllers.edit);
 
 // Route to remove an item
 router.delete("/articles/:id", articleControllers.destroy);

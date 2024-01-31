@@ -12,12 +12,11 @@ class ArticleManager extends AbstractManager {
   async create(article) {
     // Execute the SQL INSERT query to add a new article to the "article" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (title, picture, content, publish_date, category_id, country_id) values (?, ?, ?, ?, ?, ?)`,
+      `insert into ${this.table} (title, picture, content, category_id, country_id) values (?, ?, ?, ?, ?)`,
       [
         article.title,
         article.picture,
         article.content,
-        article.publish_date,
         article.category_id,
         article.country_id,
       ]
@@ -32,7 +31,7 @@ class ArticleManager extends AbstractManager {
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific item by its ID
     const [rows] = await this.database.query(
-      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, category_id, country.name as country_name, category.label as category_label FROM ${this.table} 
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%d-%m-%Y") as publish_date, article.id, article.content, category_id, country_id, country.name as country_name, category.label as category_label FROM ${this.table} 
       LEFT JOIN country ON country.id = ${this.table}.country_id
       INNER JOIN category ON category.id = ${this.table}.category_id 
       WHERE ${this.table}.id = ?`,
@@ -44,7 +43,7 @@ class ArticleManager extends AbstractManager {
 
   async readLatest(category) {
     const [rows] = await this.database.query(
-      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, article.content, category_id, country.name as country_name, category.label as category_label 
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%d-%m-%Y") as publish_date, article.id, article.content, category_id, country_id, country.name as country_name, category.label as category_label 
        FROM ${this.table}
        LEFT JOIN country ON country.id = ${this.table}.country_id
        INNER JOIN category ON category.id = ${this.table}.category_id 
@@ -63,7 +62,7 @@ class ArticleManager extends AbstractManager {
   async readAll() {
     // Execute the SQL SELECT query to retrieve all items from the "item" table
     const [rows] = await this.database.query(
-      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%Y-%m-%d") as publish_date, article.id, country.name as country_name, category.label as category_label FROM ${this.table} 
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%d-%m-%Y") as publish_date, article.id, country.name as country_name, category.label as category_label FROM ${this.table} 
       LEFT JOIN country ON country.id = ${this.table}.country_id
       INNER JOIN category ON category.id = ${this.table}.category_id`
     );
