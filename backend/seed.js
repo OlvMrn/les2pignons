@@ -9,6 +9,7 @@ const user = require("./database/data/user.json");
 const role = require("./database/data/role.json");
 const country = require("./database/data/country.json");
 const article = require("./database/data/article.json");
+const category = require("./database/data/category.json");
 
 const seed = async () => {
   try {
@@ -41,17 +42,27 @@ const seed = async () => {
     }
     await Promise.all(countryQuery);
 
+    const categoryQuery = [];
+    for (let i = 0; i < role.length; i += 1) {
+      categoryQuery.push(
+        database.query("insert into category(label) values (?)", [
+          category[i].label,
+        ])
+      );
+    }
+    await Promise.all(categoryQuery);
+
     const articleQuery = [];
     for (let i = 0; i < article.length; i += 1) {
       articleQuery.push(
         database.query(
-          "insert into article(category, title, picture, content, publish_date, country_id) values (?, ?, ?, ?, ?, ?)",
+          "insert into article(title, picture, content, publish_date, category_id, country_id) values (?, ?, ?, ?, ?, ?)",
           [
-            article[i].category,
             article[i].title,
             article[i].picture,
             article[i].content,
             article[i].publish_date,
+            article[i].category_id,
             article[i].country_id,
           ]
         )
