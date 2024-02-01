@@ -5,8 +5,6 @@ import connexion from "../services/connexion";
 
 import "./ArticlePage.css";
 
-import ArticleCard from "../components/ArticleCard";
-
 function ArticlePage() {
   const { id } = useParams();
   const [article, setArticle] = useState({});
@@ -25,9 +23,16 @@ function ArticlePage() {
   }, [id]);
 
   return (
-    <div className="article-page-body">
-      <ArticleCard article={article} />
-      <div className="article-page-content">{article.content}</div>
+    <div className="article-page">
+      <img
+        className="article-picture"
+        src={article.picture}
+        alt={`${article.title}`}
+      />
+      <div className="article-body">
+        <h1 className="article-title">{article.title}</h1>
+        <div className="article-content">{article.content}</div>
+      </div>
     </div>
   );
 }

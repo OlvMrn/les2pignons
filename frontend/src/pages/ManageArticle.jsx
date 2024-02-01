@@ -8,6 +8,7 @@ import "./ManageArticle.css";
 const articleTemplate = {
   title: "",
   picture: "",
+  summary: "",
   content: "",
   category_id: "",
   country_id: "",
@@ -175,6 +176,15 @@ function ManageArticle() {
         />
         <input
           type="text"
+          name="summary"
+          className="form-element input-summary"
+          placeholder="Résumé de l'article"
+          required
+          value={article.summary}
+          onChange={handleArticle}
+        />
+        <input
+          type="text"
           name="content"
           className="form-element input-content"
           placeholder="Contenu de l'article"
@@ -191,7 +201,9 @@ function ManageArticle() {
           value={article.picture}
           onChange={handleArticle}
         />
-        <button type="submit">Ajouter</button>
+        <button type="submit" className="submit-button">
+          Ajouter
+        </button>
       </form>
     </div>
   );

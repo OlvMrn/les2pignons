@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import connexion from "../services/connexion";
 
 import ArticleCard from "../components/ArticleCard";
+import PresentationCard from "../components/PresentationCard";
 
 function HomePage() {
   const [latestTravelArticle, setLatestTravelArticle] = useState({});
@@ -33,6 +34,7 @@ function HomePage() {
 
   return (
     <div>
+      <PresentationCard />
       <ArticleCard article={latestTravelArticle} />
       <ArticleCard article={latestEventArticle} />
     </div>

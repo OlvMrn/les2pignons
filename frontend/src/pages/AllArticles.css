@@ -1,7 +1,6 @@
 .all-articles-body {
   display: flex;
   flex-direction: column;
-  background-color: red;
 }
 
 .all-articles-title {

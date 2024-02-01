@@ -24,16 +24,21 @@ function AdminPage({ title, route }) {
 
   return (
     <div className="admin-page-body">
-      <h2>{title}</h2>
-      <Link to="new">Ajouter un article</Link>
-      {item.map((elt) => (
-        <AdminCard
-          key={elt.id}
-          element={elt}
-          route={route}
-          item={item}
-          setItem={setItem}
-        />
+      <h2 className="admin-category-title">{title}</h2>
+      <Link to="new" className="admin-nav-link">
+        Ajouter un article
+      </Link>
+      {item.map((elt, index) => (
+        <React.Fragment key={elt.id}>
+          <AdminCard
+            key={elt.id}
+            element={elt}
+            route={route}
+            item={item}
+            setItem={setItem}
+          />
+          {index < item.length - 1 && <div className="line-separator" />}
+        </React.Fragment>
       ))}
     </div>
   );
