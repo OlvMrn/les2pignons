@@ -1,6 +1,5 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-import AdminPage from "./AdminPage";
 import "./AdminHomePage.css";
 
 function AdminHomePage() {
@@ -17,7 +16,6 @@ function AdminHomePage() {
           </Link>
         </div>
       </div>
-      <AdminPage title="articles" route="/articles" />
       <Outlet />
     </div>
   );
