@@ -2,13 +2,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  height: 10rem;
-  border-bottom: 1px black solid;
-  background-color: black;
+  height: auto;
   color: white;
 }
 
 .navbar-logo img {
+  padding: 1rem;
   width: 10rem;
 }
 
