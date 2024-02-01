@@ -56,10 +56,11 @@ const seed = async () => {
     for (let i = 0; i < article.length; i += 1) {
       articleQuery.push(
         database.query(
-          "insert into article(title, picture, content, publish_date, category_id, country_id) values (?, ?, ?, ?, ?, ?)",
+          "insert into article(title, picture, summary, content, publish_date, category_id, country_id) values (?, ?, ?, ?, ?, ?, ?)",
           [
             article[i].title,
             article[i].picture,
+            article[i].summary,
             article[i].content,
             article[i].publish_date,
             article[i].category_id,

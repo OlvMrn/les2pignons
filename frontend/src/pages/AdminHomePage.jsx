@@ -1,14 +1,23 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
-
+import AdminPage from "./AdminPage";
 import "./AdminHomePage.css";
 
 function AdminHomePage() {
   return (
-    <div>
-      <h2>ADMINISTRATION PAGE</h2>
-      <Link to="articles">Administration articles</Link>
-      <Link to="users">Administration comptes utilisateurs</Link>
+    <div className="admin-home-page">
+      <div className="admin-home-page-navbar">
+        <h2 className="admin-page-title">ADMINISTRATION PAGE</h2>
+        <div className="admin-links">
+          <Link to="articles" className="admin-nav-link">
+            Administration articles
+          </Link>
+          <Link to="users" className="admin-nav-link">
+            Administration comptes utilisateurs
+          </Link>
+        </div>
+      </div>
+      <AdminPage title="articles" route="/articles" />
       <Outlet />
     </div>
   );

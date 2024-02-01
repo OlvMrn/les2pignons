@@ -1,13 +1,57 @@
 .article-card-body {
   display: flex;
-  flex-direction: column;
-  width: 40rem;
+  flex-direction: row;
+  width: 60%;
+  height: 30rem;
   margin: auto;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  background-color: bisque;
+  color: white;
+  background-color: #354f52;
+  border-radius: 0.5rem;
+}
+
+.article-card-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: goldenrod;
 }
 
 .article-card-picture {
-  width: 15rem;
+  height: 100%;
+  border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.article-card-right {
+  display: grid;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  position: relative;
+}
+
+.article-card-info {
+  font-size: 0.9rem;
+  font-weight: 100;
+  margin-bottom: 1rem;
+}
+
+.article-card-summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-justify: auto;
+  font-size: 1.2rem;
+}
+
+.article-link {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+  position: absolute;
+  bottom: 1rem;
+}
+
+.article-link:hover {
+  color: goldenrod;
 }

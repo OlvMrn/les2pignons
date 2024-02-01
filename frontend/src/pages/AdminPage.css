@@ -1,10 +1,17 @@
-.admin-card {
+.admin-page-body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  width: 80%;
+  color: white;
+}
+
+.line-separator {
+  width: 90%;
   margin: auto;
-  margin-top: 1rem;
+  border: 1px solid white;
+}
+
+.admin-category-title {
+  font-size: 2rem;
 }

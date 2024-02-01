@@ -13,6 +13,11 @@
   width: 25rem;
 }
 
+.input-summary {
+  height: 6rem;
+  width: 25rem;
+}
+
 .input-content {
   height: 10rem;
   width: 25rem;
@@ -20,5 +25,10 @@
 
 .input-picture {
   height: 2rem;
+  width: 25rem;
+}
+
+.submit-button {
+  margin-top: 1rem;
   width: 25rem;
 }
