@@ -98,12 +98,16 @@ function ManageArticle() {
   };
 
   return (
-    <div>
+    <div className="input-form">
       <form
         className="input-form-body"
         onSubmit={id !== "new" ? putArticle : postArticle}
       >
+        <h2 className="input-form-title">
+          {id === "new" ? "Ajouter un nouvel article" : "Modifier l'article"}
+        </h2>
         <label className="form-element">
+          <h3 className="input-label">Catégorie:</h3>
           <select
             name="category_id"
             onChange={handleArticle}
@@ -135,6 +139,7 @@ function ManageArticle() {
         </label>
         {parseInt(article.category_id, 10) === 1 && (
           <label className="form-element">
+            <h3 className="input-label">Pays:</h3>
             <select
               name="country_id"
               onChange={handleArticle}
@@ -165,44 +170,59 @@ function ManageArticle() {
             </select>
           </label>
         )}
-        <input
-          type="text"
-          name="title"
-          className="form-element input-title"
-          placeholder="Titre de l'article"
-          required
-          value={article.title}
-          onChange={handleArticle}
-        />
-        <input
-          type="text"
-          name="summary"
-          className="form-element input-summary"
-          placeholder="Résumé de l'article"
-          required
-          value={article.summary}
-          onChange={handleArticle}
-        />
-        <input
-          type="text"
-          name="content"
-          className="form-element input-content"
-          placeholder="Contenu de l'article"
-          required
-          value={article.content}
-          onChange={handleArticle}
-        />
-        <input
-          type="URL"
-          name="picture"
-          className="form-element input-picture"
-          placeholder="URL de l'image"
-          required
-          value={article.picture}
-          onChange={handleArticle}
-        />
+        <label className="form-element">
+          <h3 className="input-label">Titre:</h3>
+          <input
+            type="text"
+            name="title"
+            className="input-title"
+            placeholder="Titre de l'article"
+            required
+            value={article.title}
+            onChange={handleArticle}
+          />
+        </label>
+        <label className="form-element">
+          <h3 className="input-label">Résumé:</h3>
+          <input
+            type="text"
+            name="summary"
+            className="input-summary"
+            placeholder="Résumé de l'article"
+            required
+            value={article.summary}
+            onChange={handleArticle}
+          />
+        </label>
+
+        <label className="form-element">
+          <h3 className="input-label">Contenu:</h3>
+          <input
+            type="text"
+            name="content"
+            className="input-content"
+            placeholder="Contenu de l'article"
+            required
+            value={article.content}
+            onChange={handleArticle}
+          />
+        </label>
+
+        <label className="form-element">
+          <h3 className="input-label">Image:</h3>
+          <input
+            type="URL"
+            name="picture"
+            className="input-picture"
+            placeholder="URL de l'image"
+            required
+            value={article.picture}
+            onChange={handleArticle}
+          />
+        </label>
+
         <button type="submit" className="submit-button">
-          Ajouter
+          {id === "new" ? "Ajouter" : "Modifier"}
         </button>
       </form>
     </div>

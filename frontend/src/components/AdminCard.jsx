@@ -23,7 +23,7 @@ function AdminCard({ element, route, item, setItem }) {
       <div className="admin-card-bottom">
         <Link to={`${element.id}`}>
           <button type="button" className="admin-button">
-            Editer
+            Modifier
           </button>
         </Link>
         <button
