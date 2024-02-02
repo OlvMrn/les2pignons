@@ -1,9 +1,13 @@
+// HomePage.jsx
 import React, { useEffect, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import connexion from "../services/connexion";
-
 import ArticleCard from "../components/ArticleCard";
 import PresentationCard from "../components/PresentationCard";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function HomePage() {
   const [latestTravelArticle, setLatestTravelArticle] = useState({});
@@ -27,16 +31,95 @@ function HomePage() {
     }
   };
 
+  const slideFromTop = (element) => {
+    gsap.fromTo(
+      element,
+      {
+        opacity: 0,
+        y: -200,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        delay: 0.5,
+        scrollTrigger: {
+          trigger: element,
+          start: "top center",
+          end: "bottom center",
+        },
+      }
+    );
+  };
+
+  const slideFromLeft = (element) => {
+    gsap.fromTo(
+      element,
+      {
+        opacity: 0,
+        x: -300,
+      },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        delay: 0.5,
+        scrollTrigger: {
+          trigger: element,
+          start: "top center",
+          end: "bottom center",
+        },
+      }
+    );
+  };
+
+  const slideFromRight = (element) => {
+    gsap.fromTo(
+      element,
+      {
+        opacity: 0,
+        x: +300,
+      },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 0.8,
+        delay: 0.5,
+        scrollTrigger: {
+          trigger: element,
+          start: "top center",
+          end: "bottom center",
+        },
+      }
+    );
+  };
+
   useEffect(() => {
     getLatestTravelArticle();
     getLatestEventArticle();
   }, []);
 
+  useEffect(() => {
+    slideFromTop("#panel1");
+  }, []);
+  useEffect(() => {
+    slideFromLeft("#panel2");
+  }, []);
+  useEffect(() => {
+    slideFromRight("#panel3");
+  }, []);
+
   return (
     <div>
-      <PresentationCard />
-      <ArticleCard article={latestTravelArticle} />
-      <ArticleCard article={latestEventArticle} />
+      <div id="panel1">
+        <PresentationCard />
+      </div>
+      <div id="panel2">
+        <ArticleCard article={latestTravelArticle} id="panel2" />
+      </div>
+      <div id="panel3">
+        <ArticleCard article={latestEventArticle} id="panel3" />
+      </div>
     </div>
   );
 }
