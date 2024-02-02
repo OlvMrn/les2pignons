@@ -1,35 +1,19 @@
 // HomePage.jsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useLoaderData } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import connexion from "../services/connexion";
 import ArticleCard from "../components/ArticleCard";
 import PresentationCard from "../components/PresentationCard";
+
+import "./HomePage.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function HomePage() {
-  const [latestTravelArticle, setLatestTravelArticle] = useState({});
-  const [latestEventArticle, setLatestEventArticle] = useState({});
-
-  const getLatestTravelArticle = async () => {
-    try {
-      const article = await connexion.get("/articles/latest/voyage");
-      setLatestTravelArticle(article.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const getLatestEventArticle = async () => {
-    try {
-      const article = await connexion.get("/articles/latest/evènement");
-      setLatestEventArticle(article.data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { latestTravelArticle } = useLoaderData();
+  const { latestEventArticle } = useLoaderData();
 
   const slideFromTop = (element) => {
     gsap.fromTo(
@@ -95,11 +79,6 @@ function HomePage() {
   };
 
   useEffect(() => {
-    getLatestTravelArticle();
-    getLatestEventArticle();
-  }, []);
-
-  useEffect(() => {
     slideFromTop("#panel1");
   }, []);
   useEffect(() => {
@@ -120,6 +99,7 @@ function HomePage() {
       <div id="panel3">
         <ArticleCard article={latestEventArticle} id="panel3" />
       </div>
+      <div className="blank-separator" />
     </div>
   );
 }

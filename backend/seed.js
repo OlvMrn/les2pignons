@@ -43,7 +43,7 @@ const seed = async () => {
     await Promise.all(countryQuery);
 
     const categoryQuery = [];
-    for (let i = 0; i < role.length; i += 1) {
+    for (let i = 0; i < category.length; i += 1) {
       categoryQuery.push(
         database.query("insert into category(label) values (?)", [
           category[i].label,

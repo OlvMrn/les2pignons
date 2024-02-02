@@ -7,9 +7,11 @@ import AllArticles from "./pages/AllArticles";
 import ArticlePage from "./pages/ArticlePage";
 import AdminHomePage from "./pages/AdminHomePage";
 import ManageArticle from "./pages/ManageArticle";
-import ConnexionPage from "./pages/ConnexionPage";
 import AdminPage from "./pages/AdminPage";
 import HomePage from "./pages/HomePage";
+import SignForm from "./components/SignForm";
+import { AuthProvider } from "./contexts/authContext";
+import connexion from "./services/connexion";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,18 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+        loader: async () => {
+          const latestTravelArticle = await connexion.get(
+            "/articles/latest/voyage"
+          );
+          const latestEventArticle = await connexion.get(
+            "/articles/latest/evènement"
+          );
+          return {
+            latestTravelArticle: latestTravelArticle.data,
+            latestEventArticle: latestEventArticle.data,
+          };
+        },
       },
       {
         path: "articles",
@@ -27,10 +41,6 @@ const router = createBrowserRouter([
       {
         path: "articles/:id",
         element: <ArticlePage />,
-      },
-      {
-        path: "connexion",
-        element: <ConnexionPage />,
       },
       {
         path: "admin",
@@ -50,6 +60,14 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "login",
+        element: <SignForm type="signin" />,
+      },
+      {
+        path: "register",
+        element: <SignForm type="signup" />,
+      },
     ],
   },
 ]);
@@ -58,6 +76,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );

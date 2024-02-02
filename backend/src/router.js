@@ -13,11 +13,14 @@ const userControllers = require("./controllers/userControllers");
 const categoryControllers = require("./controllers/categoryControllers");
 
 const validateArticle = require("./validators/validateArticle");
+const validateUser = require("./validators/validateUser");
+const checkCredentials = require("./middlewares/checkCredentials");
 
 // Route to get a list of items
 router.get("/articles", articleControllers.browse);
 router.get("/countries", countryControllers.browse);
 router.get("/users", userControllers.browse);
+router.get("/users/profile", checkCredentials, userControllers.getProfile);
 router.get("/categories", categoryControllers.browse);
 
 // Route to get a specific item by ID
@@ -26,7 +29,8 @@ router.get("/articles/latest/:category", articleControllers.readLatest);
 
 // Route to add a new item
 router.post("/articles", validateArticle, articleControllers.add);
-router.post("/users", userControllers.add);
+router.post("/register", validateUser, userControllers.add);
+router.post("/login", validateUser, userControllers.login);
 
 // Route to edit an new item
 router.put("/articles/:id", validateArticle, articleControllers.edit);

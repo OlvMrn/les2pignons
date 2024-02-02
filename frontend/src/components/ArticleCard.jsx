@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 import "./ArticleCard.css";
 
@@ -61,5 +62,17 @@ function ArticleCard({ article }) {
     </div>
   );
 }
+
+ArticleCard.propTypes = {
+  article: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    title: PropTypes.string.isRequired,
+    picture: PropTypes.string.isRequired,
+    summary: PropTypes.string.isRequired,
+    category_label: PropTypes.string.isRequired,
+    publish_date: PropTypes.string.isRequired,
+    country_name: PropTypes.string,
+  }).isRequired,
+};
 
 export default ArticleCard;
