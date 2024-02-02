@@ -82,10 +82,14 @@ function HomePage() {
     slideFromTop("#panel1");
   }, []);
   useEffect(() => {
-    slideFromLeft("#panel2");
+    if (latestTravelArticle) {
+      slideFromLeft("#panel2");
+    }
   }, []);
   useEffect(() => {
-    slideFromRight("#panel3");
+    if (latestEventArticle) {
+      slideFromRight("#panel3");
+    }
   }, []);
 
   return (
@@ -94,10 +98,14 @@ function HomePage() {
         <PresentationCard />
       </div>
       <div id="panel2">
-        <ArticleCard article={latestTravelArticle} id="panel2" />
+        {latestTravelArticle && (
+          <ArticleCard article={latestTravelArticle} id="panel2" />
+        )}
       </div>
       <div id="panel3">
-        <ArticleCard article={latestEventArticle} id="panel3" />
+        {latestEventArticle && (
+          <ArticleCard article={latestEventArticle} id="panel3" />
+        )}
       </div>
       <div className="blank-separator" />
     </div>
