@@ -1,11 +1,38 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import gsap from "gsap";
 import { Link } from "react-router-dom";
 
 import "./ArticleCard.css";
 
 function ArticleCard({ article }) {
+  const cardRef = useRef(null);
+
+  const slideFromBottom = (card) => {
+    gsap.fromTo(
+      card,
+      { y: 50, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: card,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true,
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    const card = cardRef.current;
+    slideFromBottom(card);
+  }, []);
+
   return (
-    <div className="article-card-body">
+    <div className="article-card-body" ref={cardRef}>
       <div className="article-card-left">
         <img
           className="article-card-picture"
