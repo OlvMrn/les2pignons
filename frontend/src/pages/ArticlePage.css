@@ -20,6 +20,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  color: goldenrod;
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
@@ -29,4 +30,5 @@
   text-justify: inter-cluster;
   line-height: 2rem;
   font-size: 1.2rem;
+  color: black;
 }

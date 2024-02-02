@@ -1,1 +1,8 @@
-[{ "label": "Visiteur" }, { "label": "Admin" }]
+[
+  {
+    "label": "visiteur"
+  },
+  {
+    "label": "admin"
+  }
+]

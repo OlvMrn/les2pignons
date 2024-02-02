@@ -9,11 +9,11 @@ class UserManager extends AbstractManager {
 
   // The C of CRUD - Create operation
 
-  async create(user) {
+  async create(email, hashPassword) {
     // Execute the SQL INSERT query to add a new user to the "user" table
     const [result] = await this.database.query(
       `insert into ${this.table} (email, password) values (?, ?)`,
-      [user.email, user.password]
+      [email, hashPassword]
     );
 
     // Return the ID of the newly inserted user
@@ -26,6 +26,28 @@ class UserManager extends AbstractManager {
     // Execute the SQL SELECT query to retrieve a specific user by its ID
     const [rows] = await this.database.query(
       `select * from ${this.table} where id = ?`,
+      [id]
+    );
+
+    // Return the first row of the result, which represents the user
+    return rows[0];
+  }
+
+  async readByEmail(email) {
+    // Execute the SQL SELECT query to retrieve a specific user by its ID
+    const [rows] = await this.database.query(
+      `select * from ${this.table} where email = ?`,
+      [email]
+    );
+
+    // Return the first row of the result, which represents the user
+    return rows[0];
+  }
+
+  async readProfile(id) {
+    // Execute the SQL SELECT query to retrieve a specific user by its ID
+    const [rows] = await this.database.query(
+      `select id, email, role_id from ${this.table} where id = ?`,
       [id]
     );
 
