@@ -9,34 +9,64 @@ class ArticleManager extends AbstractManager {
 
   // The C of CRUD - Create operation
 
-  /* async create(article) {
+  async create(article) {
     // Execute the SQL INSERT query to add a new article to the "article" table
     const [result] = await this.database.query(
-      `insert into ${this.table} (title) values (?)`,
-      [article.title]
+      `insert into ${this.table} (title, picture, content, summary, category_id, country_id) values (?, ?, ?, ?, ?, ?)`,
+      [
+        article.title,
+        article.picture,
+        article.summary,
+        article.content,
+        article.category_id,
+        article.country_id,
+      ]
     );
 
     // Return the ID of the newly inserted article
     return result.insertId;
-  } */
+  }
 
   // The Rs of CRUD - Read operations
 
   async read(id) {
     // Execute the SQL SELECT query to retrieve a specific item by its ID
     const [rows] = await this.database.query(
-      `select * from ${this.table} inner join destination on destination.id = ${this.table}.destination_id where ${this.table}.id = ?`,
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%d-%m-%Y") as publish_date, article.id, article.summary, article.content, category_id, country_id, country.name as country_name, category.label as category_label FROM ${this.table} 
+      LEFT JOIN country ON country.id = ${this.table}.country_id
+      INNER JOIN category ON category.id = ${this.table}.category_id 
+      WHERE ${this.table}.id = ?`,
       [id]
     );
-
     // Return the first row of the result, which represents the item
+    return rows[0];
+  }
+
+  async readLatest(category) {
+    const [rows] = await this.database.query(
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%d-%m-%Y") as publish_date, article.id, article.summary, category_id, country_id, country.name as country_name, category.label as category_label 
+       FROM ${this.table}
+       LEFT JOIN country ON country.id = ${this.table}.country_id
+       INNER JOIN category ON category.id = ${this.table}.category_id 
+       WHERE category.label = ? AND article.publish_date = (
+         SELECT MAX(article.publish_date) 
+         FROM ${this.table} 
+         INNER JOIN category ON category.id = ${this.table}.category_id 
+         WHERE category.label = ?
+       )`,
+      [category, category]
+    );
+
     return rows[0];
   }
 
   async readAll() {
     // Execute the SQL SELECT query to retrieve all items from the "item" table
     const [rows] = await this.database.query(
-      `select article.title, article.category, article.picture, article.publish_date, article.id, destination.country from ${this.table} inner join destination on destination.id = ${this.table}.destination_id`
+      `SELECT article.title, article.picture, DATE_FORMAT(article.publish_date, "%d-%m-%Y") as publish_date, article.id, article.summary, country.name as country_name, category.label as category_label FROM ${this.table} 
+      LEFT JOIN country ON country.id = ${this.table}.country_id
+      INNER JOIN category ON category.id = ${this.table}.category_id
+      ORDER BY publish_date DESC`
     );
 
     // Return the array of items
@@ -44,14 +74,27 @@ class ArticleManager extends AbstractManager {
   }
 
   // The U of CRUD - Update operation
-  // TODO: Implement the update operation to modify an existing item
+  async update(id, article) {
+    // Execute the SQL SELECT query to retrieve a specific article by its ID
+    const [result] = await this.database.query(
+      `UPDATE ${this.table} set ? WHERE id = ?`,
+      [article, id]
+    );
 
-  // async update(item) {
-  //   ...
-  // }
+    // Return the first row of the result, which represents the item
+    return result;
+  }
 
   // The D of CRUD - Delete operation
-  // TODO: Implement the delete operation to remove an item by its ID
+  async delete(id) {
+    const result = await this.database.query(
+      `DELETE FROM ${this.table} WHERE id = ?`,
+      [id]
+    );
+
+    // Return the first row of the result, which represents the user
+    return result;
+  }
 
   // async delete(id) {
   //   ...

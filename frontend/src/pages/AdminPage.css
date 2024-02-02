@@ -1,0 +1,17 @@
+.admin-page-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.line-separator {
+  width: 90%;
+  margin: auto;
+  border: 1px solid white;
+}
+
+.admin-category-title {
+  font-size: 2rem;
+}

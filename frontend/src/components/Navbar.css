@@ -1,9 +1,31 @@
 .navbar-body {
-  height: 10rem;
-  border-bottom: 1px black solid;
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: auto;
+  color: white;
 }
 
 .navbar-logo img {
-  width: 5rem;
+  padding: 1rem;
+  width: 10rem;
+}
+
+.navbar-right {
+  display: flex;
+  flex-direction: row;
+  width: 40%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: white;
+  cursor: pointer;
+}
+
+.navbar-link:hover {
+  color: goldenrod;
+  text-decoration: underline;
 }

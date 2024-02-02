@@ -1,11 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import axios from "axios";
 
 import App from "./App";
 import AllArticles from "./pages/AllArticles";
 import ArticlePage from "./pages/ArticlePage";
+import AdminHomePage from "./pages/AdminHomePage";
+import ManageArticle from "./pages/ManageArticle";
+import AdminPage from "./pages/AdminPage";
+import HomePage from "./pages/HomePage";
+import SignForm from "./components/SignForm";
+import { AuthProvider } from "./contexts/authContext";
+import connexion from "./services/connexion";
 
 const router = createBrowserRouter([
   {
@@ -13,28 +19,54 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
+        path: "/",
+        element: <HomePage />,
+        loader: async () => {
+          const latestTravelArticle = await connexion.get(
+            "/articles/latest/voyage"
+          );
+          const latestEventArticle = await connexion.get(
+            "/articles/latest/evènement"
+          );
+          return {
+            latestTravelArticle: latestTravelArticle.data,
+            latestEventArticle: latestEventArticle.data,
+          };
+        },
+      },
+      {
         path: "articles",
         element: <AllArticles />,
-        loader: () => {
-          return axios
-            .get(`${import.meta.env.VITE_BACKEND_URL}/api/articles`)
-            .then((response) => {
-              return response.data;
-            });
-        },
       },
       {
         path: "articles/:id",
         element: <ArticlePage />,
-        loader: ({ params }) => {
-          return axios
-            .get(
-              `${import.meta.env.VITE_BACKEND_URL}/api/articles/${params.id}`
-            )
-            .then((response) => {
-              return response.data;
-            });
-        },
+      },
+      {
+        path: "admin",
+        element: <AdminHomePage />,
+        children: [
+          {
+            path: "articles",
+            element: <AdminPage title="articles" route="/articles" />,
+          },
+          {
+            path: "articles/:id",
+            element: <ManageArticle />,
+          },
+          {
+            path: "users",
+            element: "",
+          },
+        ],
+      },
+      {
+        path: "login",
+        element: <SignForm type="signin" />,
+      },
+      {
+        path: "register",
+        element: <SignForm type="signup" />,
       },
     ],
   },
@@ -44,6 +76,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>
 );
