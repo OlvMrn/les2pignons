@@ -141,6 +141,11 @@ function SignForm({ type }) {
           </p>
         </>
       )}
+      {type === "signin" && errorMessage && (
+        <p className="validate-password" style={{ color: "red" }}>
+          {errorMessage}
+        </p>
+      )}
 
       <button type="submit">
         {type === "signup" ? "S'inscrire" : "Se connecter"}
