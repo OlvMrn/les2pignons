@@ -7,9 +7,6 @@ import { AuthContext } from "../contexts/authContext";
 
 import "./SignForm.css";
 
-// Sign up => register
-// Sign in => log in
-
 const userModel = {
   email: "",
   password: "",
@@ -87,30 +84,46 @@ function SignForm({ type }) {
 
   return (
     <form className={`signform  ${type}`} onSubmit={handleSubmit}>
-      <input
-        type="email"
-        name="email"
-        required
-        placeholder="Adresse email"
-        value={user.email}
-        onChange={handleUser}
-      />
-      <input
-        type="password"
-        name="password"
-        required
-        placeholder="Mot de passe"
-        value={user.password}
-        onChange={handleUser}
-      />
-      {type === "signup" && (
+      <h2 className="sign-form-title">
+        {type === "signin" ? "Se connecter" : "S'inscrire"}
+      </h2>
+      <label className="sign-form-element">
+        Email
+        <input
+          type="email"
+          name="email"
+          required
+          placeholder="Adresse email"
+          value={user.email}
+          onChange={handleUser}
+          className="sign-form-input"
+        />
+      </label>
+      <label className="sign-form-element">
+        Mot de passe
         <input
           type="password"
+          name="password"
           required
-          placeholder="Confirmer mot de passe"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="Mot de passe"
+          value={user.password}
+          onChange={handleUser}
+          className="sign-form-input"
         />
+      </label>
+
+      {type === "signup" && (
+        <label className="sign-form-element">
+          Confirmer mot de passe
+          <input
+            type="password"
+            required
+            placeholder="Confirmer mot de passe"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="sign-form-input"
+          />
+        </label>
       )}
       {type === "signup" && (
         <>

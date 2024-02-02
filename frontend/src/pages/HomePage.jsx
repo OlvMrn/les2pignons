@@ -20,7 +20,7 @@ function HomePage() {
       element,
       {
         opacity: 0,
-        y: -200,
+        y: -300,
       },
       {
         opacity: 1,
@@ -41,7 +41,7 @@ function HomePage() {
       element,
       {
         opacity: 0,
-        x: -300,
+        x: -200,
       },
       {
         opacity: 1,
@@ -62,7 +62,7 @@ function HomePage() {
       element,
       {
         opacity: 0,
-        x: +300,
+        x: +200,
       },
       {
         opacity: 1,
