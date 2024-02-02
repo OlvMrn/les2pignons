@@ -25,6 +25,12 @@ function Navbar() {
             <h2>Page d'administration</h2>
           </Link>
         )}
+        <Link className="navbar-link" to="/login">
+          <h2>Se connecter</h2>
+        </Link>
+        <Link className="navbar-link" to="/register">
+          <h2>S'inscrire</h2>
+        </Link>
       </div>
     </div>
   );
