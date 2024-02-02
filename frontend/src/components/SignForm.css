@@ -3,21 +3,29 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 50rem;
+  width: 50%;
+  margin: auto;
   margin-top: 2rem;
   margin-bottom: 1rem;
-  margin-left: 20rem;
+  background-color: #354f52;
+  border-radius: 0.5rem;
 }
 
-.signup {
-  background-color: aquamarine;
+.sign-form-title {
+  color: goldenrod;
 }
 
-.signin {
-  background-color: darkgoldenrod;
+.sign-form-element {
+  margin-top: 1rem;
+  display: block;
+}
+
+.sign-form-input {
+  margin-left: 1rem;
 }
 
 button {
+  margin-top: 1rem;
   width: 20rem;
 }
 
