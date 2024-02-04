@@ -39,11 +39,7 @@ const readLatest = async (req, res, next) => {
     const article = await tables.article.readLatest(
       req.params.category.toLowerCase()
     );
-    if (article == null) {
-      res.sendStatus(404);
-    } else {
-      res.json(article);
-    }
+    res.json(article);
   } catch (err) {
     next(err);
   }

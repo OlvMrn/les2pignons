@@ -30,6 +30,7 @@ function AllArticles() {
           <ArticleCard key={article.id} article={article} />
         ))}
       </div>
+      <div className="blank-separator" />
     </div>
   );
 }
